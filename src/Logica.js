@@ -7,9 +7,6 @@ class Logica {
         this.jugadores = [];
         this.enemigos = [];
 
-        this.timer = this.timer.bind(this);
-        setInterval(this.timer, 1000);
-
         this.segundos = 0;
         this.nEne = 2;
 
@@ -36,12 +33,15 @@ class Logica {
 
     laPrevia() {
 
+        this.lajuente = this.app.loadFont("./imagenes/fuente.TTF")
         this.app.soundFormats('mp3', 'ogg', 'wav');
         this.miCancion = this.app.loadSound("./sound/awa.mp3");
 
         this.miDolor = this.app.loadSound("./sound/auchi.wav");
 
         this.miGanador = this.app.loadSound('./sound/win.wav');
+
+        
 
     }
 
@@ -58,10 +58,8 @@ class Logica {
         }
 
         if (this.fondiu >= 5) {
-            /*
-            this.personajes.splice(0);
-            this.enemigos.splice(0);
-            */
+            this.segundos = 0
+            this.fondiu = 0;
         }
 
     }
@@ -112,7 +110,10 @@ class Logica {
 
                 if (this.fondiu == 2 && this.medusas) {
 
-                    for (let i = 0; i < 6; i++) {
+                    this.timer = this.timer.bind(this);
+                    this.crono = setInterval(this.timer, 1000);
+
+                    for (let i = 0; i < 15; i++) {
                         this.enemigos.push(new Medusa(this.app, 1, 1))
                         this.enemigos.push(new Medusa(this.app, 2, 1))
 
@@ -139,7 +140,7 @@ class Logica {
 
                         if (this.fondiu == 2) {
 
-                            for (let i = 0; i < 6; i++) {
+                            for (let i = 0; i < 9; i++) {
                                 this.enemigos.push(new Medusa(this.app, 1, 1))
                                 this.enemigos.push(new Medusa(this.app, 2, 1))
 
@@ -149,7 +150,7 @@ class Logica {
                         if (this.fondiu == 3) {
                             this.enemigos.splice(0);
 
-                            for (let i = 0; i < 6; i++) {
+                            for (let i = 0; i < 15; i++) {
                                 this.enemigos.push(new Pez(this.app, 1, 1))
                                 this.enemigos.push(new Pez(this.app, 2, 1))
 
@@ -159,7 +160,7 @@ class Logica {
                         if (this.fondiu == 4) {
                             this.enemigos.splice(0);
 
-                            for (let i = 0; i < 4; i++) {
+                            for (let i = 0; i < 15; i++) {
                                 this.enemigos.push(new Cangrejo(this.app, 1, 1))
                                 this.enemigos.push(new Cangrejo(this.app, 2, 1))
 
@@ -198,13 +199,15 @@ class Logica {
                             return;
                         }
                     }
+            
 
                 }
+                this.pillarMiMouse();
 
                 break;
 
         }
-        this.pillarMiMouse();
+        
     }
 
     movimiento() {
@@ -223,11 +226,10 @@ class Logica {
 
     pillarMiMouse() {
 
-        //pilla donde esta mi mouse
         this.app.fill(255);
-        this.app.textSize(16);
-        this.app.textAlign(this.app.CENTER);
-        this.app.text("(" + this.app.floor(this.app.mouseX) + ", " + this.app.floor(this.app.mouseY) + ")", this.app.mouseX, this.app.mouseY);
+        this.app.textSize(40);
+        this.app.textFont(this.lajuente);
+        this.app.text('tiempo :' + ' ' + this.segundos,40, 50);
     }
 
     timer() {
@@ -273,7 +275,11 @@ class Logica {
     restart() {
 
         if (this.fondiu >= 5) {
-            this.fondiu = 0;    
+            this.fondiu = 0;
+
+          
+            
+            this.medusas = false;
             return true; 
             
         }

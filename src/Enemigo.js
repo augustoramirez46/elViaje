@@ -31,7 +31,7 @@ class Enemigo {
         }
         console.log("tanda" + tanda)
         if (tanda == 1) {
-            this.px = this.app.random(0, this.app.width);
+            this.px = this.app.random(-100, this.app.width + 100);
         }
 
         if (tanda == 2) {
